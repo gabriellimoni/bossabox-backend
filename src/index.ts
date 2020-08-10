@@ -3,6 +3,7 @@ require('dotenv').config()
 import express from'express'
 import database from './database'
 import routes from './routes'
+import bodyParser from 'body-parser'
 
 const port = process.env.PORT
 
@@ -13,6 +14,7 @@ database
 function loadServer () {
     const app: express.Application = express()
     
+    app.use(bodyParser.json())
     app.use('/api/v1', routes)
     
     app.listen(port, function () {
