@@ -1,0 +1,30 @@
+{
+  "name": "bossabox-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node -r tsconfig-paths/register ./src/index.ts",
+    "dev": "npm run start:watch",
+    "start:watch": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabriellimoni/bossabox-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabriellimoni/bossabox-backend/issues"
+  },
+  "homepage": "https://github.com/gabriellimoni/bossabox-backend#readme",
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7",
+    "tsconfig-paths": "^3.9.0"
+  }
+}
