@@ -7,7 +7,7 @@ import bodyParser from 'body-parser'
 
 const port = process.env.PORT
 
-database
+database.connect()
 .then(loadServer)
 .catch(errorLoadingServer)
 
