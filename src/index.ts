@@ -1,7 +1,9 @@
-require('module-alias/register')
 require('dotenv').config()
+if (process.env.NODE_ENV == 'production') {
+    require('module-alias/register')
+}
 
-import express from'express'
+import express from 'express'
 import database from './database'
 import routes from './routes'
 import bodyParser from 'body-parser'

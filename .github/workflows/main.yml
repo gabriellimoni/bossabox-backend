@@ -16,6 +16,7 @@ jobs:
       - run: echo MONGODB_URI="${{ secrets.MONGODB_URI }}" >> .env
       - run: echo MONGODB_DATABASE=${{ secrets.MONGODB_DATABASE }} >> .env
       - run: echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+      - run: echo NODE_ENV=production >> .env
       - run: cat .env
       - run: npm install
       - run: npm run build
