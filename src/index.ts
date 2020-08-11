@@ -17,6 +17,8 @@ function loadServer () {
     
     app.use(bodyParser.json())
     app.use('/api/v1', routes)
+
+    app.use('/', async (req, res) => res.send('Hello GAE'))
     
     app.listen(port, function () {
         console.log('App is listening on port ', port)
