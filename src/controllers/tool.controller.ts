@@ -38,6 +38,11 @@ export default class ToolController {
         const toolId = req.params.id as string
 
         try {
+            const tool = await ToolModel.findById(toolId)
+            if (!tool) {
+                return res.status(404).json(errorList.TOOL_NOT_FOUND)
+            }
+
             await ToolModel.deleteOne({ _id: toolId })
             return res.status(204).send()
         } catch (error) {
