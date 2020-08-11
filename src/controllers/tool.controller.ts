@@ -27,7 +27,7 @@ export default class ToolController {
         try {
             const newTool = new ToolModel(tool)
             await newTool.save()
-            return res.status(201).json(newTool)
+            return res.status(201).json(newTool.toJSON())
         } catch (error) {
             console.error('Error adding tool', error)
             return res.status(400).json(errorList.CREATE_TOOL_ERROR)
