@@ -5,12 +5,13 @@ import errorList from '@config/errorList'
 import iUser from '@interfaces/user.interface'
 import UserModel from '@models/user.model'
 
-export default class ToolController {
+export default class UserController {
     async create (req: Request, res: Response) {
         const user: iUser = req.body
-        user.password = await encryptPassword(user.password)
-
+        
         try {
+            user.password = await encryptPassword(user.password)
+
             const newUser = new UserModel(user)
             await newUser.save()
 
