@@ -12,16 +12,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - run: echo ${{ secrets.BACKEND_ENV_VARS }} > .env
-      - run: npm install
-      - run: npm run build
-
-      - name: Create env file
       - run: touch .env
       - run: echo MONGODB_URI=${{ MONGODB_URI }} >> .env
       - run: echo MONGODB_DATABASE=${{ MONGODB_DATABASE }} >> .env
       - run: echo JWT_SECRET=${{ JWT_SECRET }} >> .env
       - run: cat .env
+      - run: npm install
+      - run: npm run build
 
       - name: Deploy to GAE 
         uses: actions-hub/gcloud@master
