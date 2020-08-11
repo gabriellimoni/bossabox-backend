@@ -8,7 +8,7 @@ API para criação, listagem e deleção de ferramentas úteis com suporte a cri
 
 ### Instalação
 
-Primeiramente, configure sem arquivo de variáveis de ambiente `.env`.
+Primeiramente, configure seu arquivo de variáveis de ambiente `.env`.
 Para isso, copie e cole o arquivo `.env.example` para `.env` e remova a primeira linha. Pronto, variáveis ambiente padrões configuradas.
 Em seguida, basta rodar o comando `docker-compose up --build` e o ambiente de desenvolvimento está pronto e rodando.
 É possível rodar o projeto sem docker também, porém será preciso realizar maiores configurações.
