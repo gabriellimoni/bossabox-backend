@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 12.x
       - run: touch .env
-      - run: echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
+      - run: echo MONGODB_URI="${{ secrets.MONGODB_URI }}" >> .env
       - run: echo MONGODB_DATABASE=${{ secrets.MONGODB_DATABASE }} >> .env
       - run: echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
       - run: cat .env
