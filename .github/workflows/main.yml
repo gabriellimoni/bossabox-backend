@@ -1,20 +1,25 @@
-name: Initialize Google Cloud SDK
-  uses: zxyle/publish-gae-action@master
-  with:
-    service_account_email: ${{ secrets.GCP_SA_EMAIL }}
-    service_account_key: ${{ secrets.GCP_SA_KEY }}
-    project_id: ${{ secrets.PROJECT_ID }}
-    # An optional variables parameter can be used
-    gae_variables: ${{ secrets.GAE_VARIABLES }}
+name: Deploy to app engine
 
-- name: Build backend
-  run: |
-    npm install
-    npm run build
+on: [push]
 
-- name: Publish app to Google App Engine
-  run: |
-    # This client-secret.json is converted by GCP_SA_KEY.
-    gcloud auth activate-service-account ${{ secrets.GCP_SA_EMAIL }} --key-file=client-secret.json
-    gcloud config set project ${{ secrets.PROJECT_ID }}
-    gcloud -q app deploy app.yaml
+jobs:
+  build:
+    runs-on: ubuntu-lastest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - run: echo ${{ secrets.BACKEND_ENV_VARS }} > .env
+      - run: npm install
+      - run: npm run build
+
+      - name: Deploy to GAE 
+        uses: actions-hub/gcloud@master
+        env:
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA_KEY }}
+        with:
+          args: app deploy app.yaml
