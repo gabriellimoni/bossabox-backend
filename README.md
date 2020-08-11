@@ -25,3 +25,7 @@ O processo de implantação está configurado para ser executado no ambiente do 
 ### Tecnologias
 
 A API foi desenvolvida utilizando Typescript, Express e MongoDB.
+
+### Testes
+
+A suíte de teste está configurada com Jest, porém sem implementações até o momento.
