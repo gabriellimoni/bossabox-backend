@@ -16,6 +16,14 @@ export default {
         code: 'tool/delete',
         message: 'Error deleting tool'
     } as iError,
+    TOOL_NOT_FOUND: {
+        code: 'tool/not_found',
+        message: 'Tool not found'
+    } as iError,
+    CREATE_USER_ERROR: {
+        code: 'user/create',
+        message: 'Error creating user'
+    } as iError,
     BODY_IS_EMPTY: {
         code: 'req/empty_body',
         message: 'Body is empty'
@@ -32,4 +40,20 @@ export default {
             message: `Field ${field} has wrong type`,
         } as iError
     },
+    UNAUTHORIZED_ERROR: {
+        code: 'auth/not_authorized',
+        message: 'Wrong email or password'
+    } as iError,
+    TOKEN_NOT_SENT_ERROR: {
+        code: 'auth/token_not_sent',
+        message: 'X-Access-Token is required'
+    } as iError,
+    TOKEN_VERIFY_ERROR: {
+        code: 'auth/token_verify_error',
+        message: 'Error verifying token'
+    } as iError,
+    USER_NOT_FOUND: {
+        code: 'user/not_found',
+        message: 'User not found'
+    } as iError,
 }
