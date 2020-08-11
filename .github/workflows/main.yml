@@ -8,9 +8,9 @@
     gae_variables: ${{ secrets.GAE_VARIABLES }}
 
 - name: Build backend
-    run: |
-      npm install
-      npm run build
+  run: |
+    npm install
+    npm run build
 
 - name: Publish app to Google App Engine
   run: |
