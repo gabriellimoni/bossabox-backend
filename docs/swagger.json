@@ -1,706 +1,793 @@
 {
-    "info": {
-      "description": "Documentação da API para teste do Bossa Box",
-      "title": "Tools API",
-      "version": "1.0.0"
-    },
-    "host": "localhost:3000",
-    "basePath": "/api/v1",
-    "produces": [
-      "application/json"
-    ],
-    "schemes": [
-      "http",
-      "https"
-    ],
-    "securityDefinitions": {
-      "JWT": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "x-access-token",
-        "description": "Token de acesso gerado na rota /login"
-      }
-    },
-    "swagger": "2.0",
-    "paths": {
-      "/tools": {
-        "post": {
-          "parameters": [
-            {
-              "name": "user",
-              "in": "body",
-              "description": "Dados da ferramenta a ser criada",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/InputTool"
-              }
+  "info": {
+    "description": "Documentação da API para teste do Bossa Box",
+    "title": "Tools API",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "x-access-token",
+      "description": "Token de acesso gerado na rota /login"
+    }
+  },
+  "swagger": "2.0",
+  "paths": {
+    "/tools": {
+      "post": {
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Dados da ferramenta a ser criada",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InputTool"
             }
-          ],
-          "description": "Rota para criação de ferramenta",
-          "tags": [
-            "Tools"
-          ],
-          "responses": {
-            "201": {
-              "description": "Ferramenta criada com ID e versão",
-              "schema": {
+          }
+        ],
+        "description": "Rota para criação de ferramenta",
+        "tags": [
+          "Tools"
+        ],
+        "responses": {
+          "201": {
+            "description": "Ferramenta criada com ID e versão",
+            "schema": {
+              "$ref": "#/definitions/OutputTool"
+            }
+          },
+          "401": {
+            "description": "Token requerido",
+            "schema": {
+              "$ref": "#/definitions/TokenNotSentError"
+            }
+          },
+          "500": {
+            "description": "Erro ao validar token (token inválido)",
+            "schema": {
+              "$ref": "#/definitions/TokenVerifyError"
+            }
+          },
+          "400.1": {
+            "description": "Erro ao criar ferramenta",
+            "schema": {
+              "$ref": "#/definitions/CreateToolError"
+            }
+          },
+          "400.2": {
+            "description": "Campo requerido não existente",
+            "schema": {
+              "$ref": "#/definitions/MissingFieldError"
+            }
+          },
+          "400.3": {
+            "description": "Campo com tipo errado",
+            "schema": {
+              "$ref": "#/definitions/WrongFieldTypeError"
+            }
+          },
+          "400.4": {
+            "description": "Sem corpo da requisição",
+            "schema": {
+              "$ref": "#/definitions/BodyIsEmptyError"
+            }
+          }
+        },
+        "operationId": "createTool",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "JWT": [
+              
+            ]
+          }
+        ]
+      },
+      "get": {
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "query",
+            "description": "Tag a ser filtrada",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "description": "Rota para listagem de ferramentas",
+        "tags": [
+          "Tools"
+        ],
+        "responses": {
+          "200": {
+            "description": "Array de ferramentas",
+            "schema": {
+              "type": "array",
+              "items": {
                 "$ref": "#/definitions/OutputTool"
               }
-            },
-            "401": {
-              "description": "Token requerido",
-              "schema": {
-                "$ref": "#/definitions/TokenNotSentError"
-              }
-            },
-            "500": {
-              "description": "Erro ao validar token (token inválido)",
-              "schema": {
-                "$ref": "#/definitions/TokenVerifyError"
-              }
-            },
-            "400.1": {
-              "description": "Erro ao criar ferramenta",
-              "schema": {
-                "$ref": "#/definitions/CreateToolError"
-              }
-            },
-            "400.2": {
-              "description": "Campo requerido não existente",
-              "schema": {
-                "$ref": "#/definitions/MissingFieldError"
-              }
-            },
-            "400.3": {
-              "description": "Campo com tipo errado",
-              "schema": {
-                "$ref": "#/definitions/WrongFieldTypeError"
-              }
-            },
-            "400.4": {
-              "description": "Sem corpo da requisição",
-              "schema": {
-                "$ref": "#/definitions/BodyIsEmptyError"
-              }
             }
           },
-          "operationId": "createTool",
-          "produces": [
-            "application/json"
-          ],
-          "consumes": [
-            "application/json"
-          ],
-          "security": [
-            {
-              "JWT": [
-                
-              ]
+          "400": {
+            "description": "Erro ao listar ferramentas",
+            "schema": {
+              "$ref": "#/definitions/ListToolError"
             }
-          ]
+          },
+          "401": {
+            "description": "Token requerido",
+            "schema": {
+              "$ref": "#/definitions/TokenNotSentError"
+            }
+          },
+          "500": {
+            "description": "Erro ao validar token (token inválido)",
+            "schema": {
+              "$ref": "#/definitions/TokenVerifyError"
+            }
+          }
         },
-        "get": {
-          "parameters": [
-            {
-              "name": "tag",
-              "in": "query",
-              "description": "Tag a ser filtrada",
-              "required": false,
-              "type": "string"
+        "operationId": "listTool",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "JWT": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/user": {
+      "post": {
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Dados do usuário a ser criado",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InputUser"
             }
-          ],
-          "description": "Rota para listagem de ferramentas",
-          "tags": [
-            "Tools"
-          ],
-          "responses": {
-            "200": {
-              "description": "Array de ferramentas",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/OutputTool"
-                }
-              }
-            },
-            "400": {
-              "description": "Erro ao listar ferramentas",
-              "schema": {
-                "$ref": "#/definitions/ListToolError"
-              }
-            },
-            "401": {
-              "description": "Token requerido",
-              "schema": {
-                "$ref": "#/definitions/TokenNotSentError"
-              }
-            },
-            "500": {
-              "description": "Erro ao validar token (token inválido)",
-              "schema": {
-                "$ref": "#/definitions/TokenVerifyError"
-              }
+          }
+        ],
+        "description": "Rota para criação de usuário",
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuário criado com ID e versão",
+            "schema": {
+              "$ref": "#/definitions/OutputUser"
             }
           },
-          "operationId": "listTool",
-          "produces": [
-            "application/json"
-          ],
-          "consumes": [
-            "application/json"
-          ],
-          "security": [
-            {
-              "JWT": [
-                
-              ]
+          "400": {
+            "description": "Erro ao criar usuário",
+            "schema": {
+              "$ref": "#/definitions/CreateUserError"
             }
-          ]
-        }
-      },
-      "/user": {
-        "post": {
-          "parameters": [
-            {
-              "name": "user",
-              "in": "body",
-              "description": "Dados do usuário a ser criado",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/InputUser"
-              }
-            }
-          ],
-          "description": "Rota para criação de usuário",
-          "tags": [
-            "User"
-          ],
-          "responses": {
-            "201": {
-              "description": "Usuário criado com ID e versão",
-              "schema": {
-                "$ref": "#/definitions/OutputUser"
-              }
-            },
-            "400": {
-              "description": "Erro ao criar usuário",
-              "schema": {
-                "$ref": "#/definitions/CreateUserError"
-              }
+          }
+        },
+        "operationId": "createUser",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/tools/{id}": {
+      "delete": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Tag a ser deletada",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "Rota para apagar ferramentas",
+        "tags": [
+          "Tools"
+        ],
+        "responses": {
+          "204": {
+            "description": "Deletado com sucesso"
+          },
+          "400": {
+            "description": "Erro ao deletar ferramentas",
+            "schema": {
+              "$ref": "#/definitions/DeleteToolError"
             }
           },
-          "operationId": "createUser",
-          "produces": [
-            "application/json"
-          ],
-          "consumes": [
-            "application/json"
-          ]
-        }
-      },
-      "/tools/{id}": {
-        "delete": {
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "Tag a ser deletada",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "description": "Rota para apagar ferramentas",
-          "tags": [
-            "Tools"
-          ],
-          "responses": {
-            "204": {
-              "description": "Deletado com sucesso"
-            },
-            "400": {
-              "description": "Erro ao deletar ferramentas",
-              "schema": {
-                "$ref": "#/definitions/DeleteToolError"
-              }
-            },
-            "401": {
-              "description": "Token requerido",
-              "schema": {
-                "$ref": "#/definitions/TokenNotSentError"
-              }
-            },
-            "404": {
-              "description": "Ferramenta não encontrada",
-              "schema": {
-                "$ref": "#/definitions/ToolNotFoundError"
-              }
+          "401": {
+            "description": "Token requerido",
+            "schema": {
+              "$ref": "#/definitions/TokenNotSentError"
             }
           },
-          "operationId": "deleteTool",
-          "produces": [
-            "application/json"
-          ],
-          "consumes": [
-            "application/json"
-          ],
-          "security": [
-            {
-              "JWT": [
-                
-              ]
+          "404": {
+            "description": "Ferramenta não encontrada",
+            "schema": {
+              "$ref": "#/definitions/ToolNotFoundError"
             }
-          ]
-        }
-      },
-      "/login": {
-        "post": {
-          "parameters": [
-            {
-              "name": "login",
-              "in": "body",
-              "description": "Email e senha para logar",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/Login"
-              }
+          }
+        },
+        "operationId": "deleteTool",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "JWT": [
+              
+            ]
+          }
+        ]
+      }
+    },
+    "/login": {
+      "post": {
+        "parameters": [
+          {
+            "name": "login",
+            "in": "body",
+            "description": "Email e senha para logar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
             }
-          ],
-          "description": "Rota para realizar login",
-          "tags": [
-            "User"
-          ],
-          "responses": {
-            "200": {
-              "description": "Dados do usuário e token",
-              "schema": {
-                "$ref": "#/definitions/LoggedUser"
-              }
-            },
-            "401": {
-              "description": "Senha ou e",
-              "schema": {
-                "$ref": "#/definitions/UnauthorizedError"
-              }
-            },
-            "404": {
-              "description": "Usuário não encontrado pelo e",
-              "schema": {
-                "$ref": "#/definitions/UserNotFoundError"
-              }
+          }
+        ],
+        "description": "Rota para realizar login",
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do usuário e token",
+            "schema": {
+              "$ref": "#/definitions/LoginData"
             }
           },
-          "operationId": "loginUser",
-          "produces": [
-            "application/json"
-          ],
-          "consumes": [
-            "application/json"
-          ]
+          "401": {
+            "description": "Senha ou e",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizedError"
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado pelo e",
+            "schema": {
+              "$ref": "#/definitions/UserNotFoundError"
+            }
+          }
+        },
+        "operationId": "loginUser",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    },
+    "/refresh": {
+      "post": {
+        "parameters": [
+          {
+            "name": "refresh",
+            "in": "body",
+            "description": "Email e senha para logar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Refresh"
+            }
+          }
+        ],
+        "description": "\nRota para atualizar os dados do token",
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do token",
+            "schema": {
+              "$ref": "#/definitions/TokenData"
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado pelo refresh_token",
+            "schema": {
+              "$ref": "#/definitions/UserNotFoundError"
+            }
+          }
+        },
+        "operationId": "refreshToken",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "OutputTool": {
+      "required": [
+        
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "Id da ferramenta ",
+          "example": "5f31f505ee6459000aa594c1"
+        },
+        "title": {
+          "type": "string",
+          "description": "Nome da ferramenta ",
+          "example": "Ferramenta Louca"
+        },
+        "link": {
+          "type": "string",
+          "description": "Link para a ferramenta ",
+          "example": "https://www.google.com"
+        },
+        "description": {
+          "type": "string",
+          "description": "Descrição da ferramenta ",
+          "example": "Descrição da ferramenta muito doida"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "__v": {
+          "type": "number",
+          "description": "Versão (controle mongoose) ",
+          "example": "1"
         }
       }
     },
-    "definitions": {
-      "OutputTool": {
-        "required": [
-          
-        ],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Id da ferramenta ",
-            "example": "5f31f505ee6459000aa594c1"
-          },
-          "title": {
-            "type": "string",
-            "description": "Nome da ferramenta ",
-            "example": "Ferramenta Louca"
-          },
-          "link": {
-            "type": "string",
-            "description": "Link para a ferramenta ",
-            "example": "https://www.google.com"
-          },
-          "description": {
-            "type": "string",
-            "description": "Descrição da ferramenta ",
-            "example": "Descrição da ferramenta muito doida"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "__v": {
-            "type": "number",
-            "description": "Versão (controle mongoose) ",
-            "example": "1"
-          }
-        }
-      },
-      "InputTool": {
-        "required": [
-          "title",
-          "link",
-          "description",
-          "tags"
-        ],
-        "properties": {
-          "title": {
-            "type": "string",
-            "description": "Nome da ferramenta ",
-            "example": "Ferramenta Louca"
-          },
-          "link": {
-            "type": "string",
-            "description": "Link para a ferramenta ",
-            "example": "https://www.google.com"
-          },
-          "description": {
-            "type": "string",
-            "description": "Descrição da ferramenta ",
-            "example": "Descrição da ferramenta muito doida"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "OutputUser": {
-        "required": [
-          
-        ],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Id do usuário ",
-            "example": "5f31f505ee6459000aa594c1"
-          },
-          "name": {
-            "type": "string",
-            "description": "Nome do usuário ",
-            "example": "Gabriel B. Limoni"
-          },
-          "email": {
-            "type": "string",
-            "description": "Email do usuário ",
-            "example": "gabrielblimoni@gmail.com"
-          },
-          "__v": {
-            "type": "number",
-            "description": "Versão (controle mongoose) ",
-            "example": "1"
-          }
-        }
-      },
-      "InputUser": {
-        "required": [
-          "name",
-          "email",
-          "password"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Nome do usuário ",
-            "example": "Gabriel B. Limoni"
-          },
-          "email": {
-            "type": "string",
-            "description": "Email do usuário ",
-            "example": "gabrielblimoni@gmail.com"
-          },
-          "password": {
-            "type": "string",
-            "description": "Senha do usuário ",
-            "example": "gabriel123"
-          }
-        }
-      },
-      "CreateUserError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "user/create"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "Error creating user"
-          }
-        }
-      },
-      "CreateToolError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "tool/create"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "Error creating tool"
-          }
-        }
-      },
-      "DeleteToolError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "tool/delete"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "Error deleting tool"
-          }
-        }
-      },
-      "ToolNotFoundError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "tool/not_found"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "Tool not found"
-          }
-        }
-      },
-      "ListToolError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "tool/list"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "Error listing tool"
-          }
-        }
-      },
-      "MissingFieldError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "field_missing"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "Missing field ${field}"
-          }
-        }
-      },
-      "WrongFieldTypeError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "wrong_field_type"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "Field ${field} has wrong type"
-          }
-        }
-      },
-      "BodyIsEmptyError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "req/empty_body"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "Body is empty"
-          }
-        }
-      },
-      "UserNotFoundError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "user/not_found"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "User not found"
-          }
-        }
-      },
-      "UnauthorizedError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "auth/not_authorized"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "Wrong email or password"
-          }
-        }
-      },
-      "TokenNotSentError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "auth/token_not_sent"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "X-Access-Token is required"
-          }
-        }
-      },
-      "TokenVerifyError": {
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "type": "string",
-            "description": "Código do erro ",
-            "example": "auth/token_verify_error"
-          },
-          "message": {
-            "type": "string",
-            "description": "Mensagem de erro ",
-            "example": "Error verifying token"
-          }
-        }
-      },
-      "Login": {
-        "required": [
-          "email",
-          "password"
-        ],
-        "properties": {
-          "email": {
-            "type": "string",
-            "description": "Email do usuário ",
-            "example": "gabrielblimoni@gmail.com"
-          },
-          "password": {
-            "type": "string",
-            "description": "Senha do usuário ",
-            "example": "gabriel123"
-          }
-        }
-      },
-      "LoggedUser": {
-        "required": [
-          
-        ],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Id do usuário ",
-            "example": "5f31f505ee6459000aa594c1"
-          },
-          "name": {
-            "type": "string",
-            "description": "Nome do usuário ",
-            "example": "Gabriel B. Limoni"
-          },
-          "email": {
-            "type": "string",
-            "description": "Email do usuário ",
-            "example": "gabrielblimoni@gmail.com"
-          },
-          "token": {
-            "type": "string",
-            "description": "Token do usuário (expira em 5 minutos) ",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQHRlc3RlLmNvbSIsImlhdCI6MTU5NzE4MzExMywiZXhwIjoxNTk3MTgzNDEzfQ._wMGM2o27Mv7MhZE2e_ewYtDy5pwNNXvV7m35KIEEsQ"
-          },
-          "__v": {
-            "type": "number",
-            "description": "Versão (controle mongoose) ",
-            "example": "1"
+    "InputTool": {
+      "required": [
+        "title",
+        "link",
+        "description",
+        "tags"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Nome da ferramenta ",
+          "example": "Ferramenta Louca"
+        },
+        "link": {
+          "type": "string",
+          "description": "Link para a ferramenta ",
+          "example": "https://www.google.com"
+        },
+        "description": {
+          "type": "string",
+          "description": "Descrição da ferramenta ",
+          "example": "Descrição da ferramenta muito doida"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         }
       }
     },
-    "responses": {
-      
-    },
-    "parameters": {
-      
-    },
-    "tags": [
-      {
-        "name": "Tools",
-        "description": "Manipulações de ferramenta"
-      },
-      {
-        "name": "User",
-        "description": "Manipulações de usuário"
+    "OutputUser": {
+      "required": [
+        
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "Id do usuário ",
+          "example": "5f31f505ee6459000aa594c1"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nome do usuário ",
+          "example": "Gabriel B. Limoni"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email do usuário ",
+          "example": "gabrielblimoni@gmail.com"
+        },
+        "__v": {
+          "type": "number",
+          "description": "Versão (controle mongoose) ",
+          "example": "1"
+        }
       }
-    ]
-  }
+    },
+    "InputUser": {
+      "required": [
+        "name",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Nome do usuário ",
+          "example": "Gabriel B. Limoni"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email do usuário ",
+          "example": "gabrielblimoni@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "description": "Senha do usuário ",
+          "example": "gabriel123"
+        }
+      }
+    },
+    "CreateUserError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "user/create"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "Error creating user"
+        }
+      }
+    },
+    "CreateToolError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "tool/create"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "Error creating tool"
+        }
+      }
+    },
+    "DeleteToolError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "tool/delete"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "Error deleting tool"
+        }
+      }
+    },
+    "ToolNotFoundError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "tool/not_found"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "Tool not found"
+        }
+      }
+    },
+    "ListToolError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "tool/list"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "Error listing tool"
+        }
+      }
+    },
+    "MissingFieldError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "field_missing"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "Missing field ${field}"
+        }
+      }
+    },
+    "WrongFieldTypeError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "wrong_field_type"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "Field ${field} has wrong type"
+        }
+      }
+    },
+    "BodyIsEmptyError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "req/empty_body"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "Body is empty"
+        }
+      }
+    },
+    "UserNotFoundError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "user/not_found"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "User not found"
+        }
+      }
+    },
+    "UnauthorizedError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "auth/not_authorized"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "Wrong email or password"
+        }
+      }
+    },
+    "TokenNotSentError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "auth/token_not_sent"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "X-Access-Token is required"
+        }
+      }
+    },
+    "TokenVerifyError": {
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Código do erro ",
+          "example": "auth/token_verify_error"
+        },
+        "message": {
+          "type": "string",
+          "description": "Mensagem de erro ",
+          "example": "Error verifying token"
+        }
+      }
+    },
+    "Login": {
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email do usuário ",
+          "example": "gabrielblimoni@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "description": "Senha do usuário ",
+          "example": "gabriel123"
+        }
+      }
+    },
+    "Refresh": {
+      "required": [
+        "refresh_token"
+      ],
+      "properties": {
+        "refresh_token": {
+          "type": "string",
+          "description": "Refresh Token ",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQHRlc3RlLmNvbSIsImlhdCI6MTU5NzE4MzExMywiZXhwIjoxNTk3MTgzNDEzfQ._wMGM2o27Mv7MhZE2e_ewYtDy5pwNNXvV7m35KIEEsQ"
+        }
+      }
+    },
+    "LoggedUser": {
+      "required": [
+        
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "Id do usuário ",
+          "example": "5f31f505ee6459000aa594c1"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nome do usuário ",
+          "example": "Gabriel B. Limoni"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email do usuário ",
+          "example": "gabrielblimoni@gmail.com"
+        },
+        "__v": {
+          "type": "number",
+          "description": "Versão (controle mongoose) ",
+          "example": "1"
+        }
+      }
+    },
+    "TokenData": {
+      "required": [
+        
+      ],
+      "properties": {
+        "accessToken": {
+          "type": "string",
+          "description": "Token de acesso ",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQHRlc3RlLmNvbSIsImlhdCI6MTU5NzE4MzExMywiZXhwIjoxNTk3MTgzNDEzfQ._wMGM2o27Mv7MhZE2e_ewYtDy5pwNNXvV7m35KIEEsQ"
+        },
+        "expiresIn": {
+          "type": "number",
+          "description": "Tempo em segundos para expiração do accessToken ",
+          "example": "300"
+        },
+        "refreshToken": {
+          "type": "string",
+          "description": "Token de acesso ",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsQHRlc3RlLmNvbSIsImlhdCI6MTU5NzE4MzExMywiZXhwIjoxNTk3MTgzNDEzfQ._wMGM2o27Mv7MhZE2e_ewYtDy5pwNNXvV7m35KIEEsQ"
+        },
+        "refreshExpiresIn": {
+          "type": "number",
+          "description": "Tempo em segundos para expiração do refreshToken ",
+          "example": "300"
+        }
+      }
+    },
+    "LoginData": {
+      "required": [
+        
+      ],
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/LoggedUser"
+        },
+        "token": {
+          "$ref": "#/definitions/TokenData"
+        }
+      }
+    }
+  },
+  "responses": {
+    
+  },
+  "parameters": {
+    
+  },
+  "tags": [
+    {
+      "name": "Tools",
+      "description": "Manipulações de ferramenta"
+    },
+    {
+      "name": "User",
+      "description": "Manipulações de usuário"
+    }
+  ]
+}
