@@ -48,6 +48,10 @@ export default {
         code: 'auth/token_not_sent',
         message: 'X-Access-Token is required'
     } as iError,
+    REFRESHTOKEN_NOT_SENT_ERROR: {
+        code: 'auth/refresh_token_not_sent',
+        message: 'refresh_token is required'
+    } as iError,
     TOKEN_VERIFY_ERROR: {
         code: 'auth/token_verify_error',
         message: 'Error verifying token'
