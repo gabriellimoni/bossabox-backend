@@ -53,6 +53,7 @@
     "@controllers": "dist/controllers",
     "@config": "dist/config",
     "@validators": "dist/validators",
-    "@models": "dist/models"
+    "@models": "dist/models",
+    "@services": "dist/services"
   }
 }
