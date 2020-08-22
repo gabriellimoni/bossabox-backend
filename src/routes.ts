@@ -10,6 +10,7 @@ const router = express.Router()
 router
     .post('/user', userController.create)
     .post('/login', userController.login)
+    .post('/refresh', userController.refreshToken)
     
     .use(userController.checkToken)
     .get('/tools', toolController.list)
